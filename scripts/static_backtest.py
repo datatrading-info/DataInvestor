@@ -14,6 +14,7 @@ from datainvestor.data.daily_bar_csv import CSVDailyBarDataSource
 from datainvestor.statistics.json_statistics import JSONStatistics
 from datainvestor.statistics.tearsheet import TearsheetStatistics
 from datainvestor.trading.backtest import BacktestTradingSession
+from datainvestor import settings
 
 
 def obtain_allocations(allocations):
@@ -55,7 +56,11 @@ def obtain_allocations(allocations):
 @click.option('--id', 'strat_id', help='Backtest strategy ID string')
 @click.option('--tearsheet', 'tearsheet', is_flag=True, default=False, help='Whether to display the (blocking) tearsheet plot')
 def cli(start_date, end_date, allocations, strat_title, strat_id, tearsheet):
-    csv_dir = os.environ.get('DATAINVESTOR_CSV_DATA_DIR', '.')
+    testing = False
+    config_file = settings.DEFAULT_CONFIG_FILENAME
+    config = settings.from_file(config_file, testing)
+
+    csv_dir = config.CSV_DATA_DIR
 
     start_dt = pd.Timestamp('%s 00:00:00' % start_date, tz=pytz.UTC)
 
