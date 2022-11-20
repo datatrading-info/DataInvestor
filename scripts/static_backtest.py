@@ -22,7 +22,7 @@ def obtain_allocations(allocations):
     Converte la stringa di allocazione fornita nella riga di comando
     in un dizionario usato per datainvestor.
 
-    Parametri
+    Parameters
     ----------
     allocations : `str`
         La stringa con l'allocazione degli asset.
