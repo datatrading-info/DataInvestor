@@ -14,7 +14,7 @@ from datainvestor import settings
 class TearsheetStatistics(Statistics):
     """
     Visualizza una "one-page" generato da Matplotlib come si trova
-    nei rapporti sulle prestazioni della strategia istituzionale.
+    nei report istituzionali sulle prestazioni di una strategia.
     """
     def __init__(
         self,
@@ -31,7 +31,7 @@ class TearsheetStatistics(Statistics):
 
     def get_results(self, equity_df):
         """
-        Restituisci un dict con tutti i risultati e le statistiche importanti.
+        Restituisce un dict con tutti i risultati e le statistiche importanti.
         """
         # Rendimenti
         equity_df["returns"] = equity_df["Equity"].pct_change().fillna(0.0)
@@ -492,6 +492,13 @@ class TearsheetStatistics(Statistics):
         self._plot_txt_curve(stats, bench_stats=bench_stats, ax=ax_txt_curve)
       #  self._plot_txt_trade(stats, ax=ax_txt_trade)
         self._plot_txt_time(stats, ax=ax_txt_time)
+
+        # Salva il Tearsheeet
+        if filename:
+            if settings.PRINT_EVENTS:
+                print(f"Saving tearsheet to {filename}")
+            fig = plt.gcf()
+            fig.savefig(filename)
 
         # Visualizzazione del grafico
         plt.show()
