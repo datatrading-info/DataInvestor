@@ -1,5 +1,4 @@
 import operator
-import os
 
 import pandas as pd
 import pytz
@@ -236,3 +235,4 @@ if __name__ == "__main__":
         title='US Sector Momentum - Top 3 Sectors'
     )
     tearsheet.plot_results()
+    print("")
