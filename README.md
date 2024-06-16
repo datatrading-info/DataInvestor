@@ -13,20 +13,56 @@ E' stato progettato per sopportare versioni di python maggiori alla 3.6
 
 # Installazione
 
-DataInvestor può essere installato su una distribuzione Python completa come Anaconda (https://www.anaconda.com/distribution) o in un ambiente virtuale di Python 3. Consigliamo l'uso di Anaconda poiché semplifica notevolmente il processo di installazione.
+L'installazione richiede un ambiente Python3. L'approccio più semplice è scaricare una distribuzione scientifica autonoma di Python come [Anaconda Individual Edition](https://www.anaconda.com/products/individual#Downloads). È quindi possibile installare DataInvestor in un [ambiente virtuale](https://docs.python.org/3/tutorial/venv.html#virtual-environments-and-packages) isolato tramite pip come mostrato di seguito.
 
-DataInvestor funziona meglio in un sistema basato su Linux (ad esempio MacOS o Ubuntu) poiché è prevalentemente uno strumento con interfaccia a riga di comando (CLI). Può essere installato anche su Windows, ma richiede [Git] (https://git-scm.com/) per installare la versione richiesta.
+Eventuali problemi con l'installazione devono essere segnalati al team di sviluppo come problemi [qui](https://github.com/datatrading-info/DataInvestor/issues).
 
+
+##conda
+
+[conda](https://docs.conda.io/projects/conda/en/latest/) è uno strumento da riga di comando fornito con la distribuzione Anaconda. Ti consente di gestire gli ambienti virtuali e pacchetti _utilizzando lo stesso strumento_.
+
+Il seguente comando creerà un nuovo ambiente chiamato "backtest".
+
+```
+conda create -n backtest python
+```
+Questo utilizzerà la versione Python predefinita di Conda. Al momento della stesura di questo documento si trattava di Python 3.12. Attualmente DataInvestor supporta Python 3.9, 3.10, 3.11 e 3.12. Facoltativamente è possibile specificare una versione Python sostituendo python==3.9 quando si crea l'ambiente vistguale, come segue:
+
+```
+conda create -n backtest python==3.9
+```
+
+Per iniziare a utilizzare DataInvestor, è necessario attivare questo nuovo ambiente e installare DataInvestor utilizzando pip.
+
+```
+conda activate backtest
+pip3 install datainvestor
+```
+
+## pip
+
+In alternativa, puoi utilizzare [venv](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) per gestire la creazione dell'ambiente e [pip](https://docs.python .org/3/tutorial/venv.html#managing-packages-with-pip) per gestire l'installazione del pacchetto.
+
+```
+python -m venv backtest
+source backtest/bin/activate # È necessario attivare l'ambiente prima di installare il pacchetto
+pip3 install datainvestor
+```
+
+# Documentazione completa
+
+La documentazione completa e i tutorial per i neofiti di DataInvestor sono disponibili su DataTrading.info all'indirizzo [https://www.datatrading.info/datainvestor/](https://www.datatrading.info/datainvestor/).
 
 # Quickstart
 
 Il repository DataInvestor fornisce alcune semplici strategie di esempio su [/examples](https://github.com/datatrading-info/DataInvestor/tree/master/examples).
 
-All'interno di questa sezione di avvio rapido, un portafoglio di azioni/obbligazioni classico 60/40 verrà sottoposto a backtest con ribilanciamento mensile l'ultimo giorno del mese di calendario.
+All'interno di questa sezione di avvio rapido, un classico portafoglio di azioni/obbligazioni classico è sottoposto a backtest con ribilanciamento mensile ogni l'ultimo giorno del mese.
 
 Per iniziare, scarica il file [sixty_forty.py](https://github.com/datatrading-info/DataInvestor/blob/master/examples/sixty_forty.py) e inseriscilo nella directory di tua scelta.
 
-Lo script 60/40 utilizza i dati della "barra giornaliera" OHLC di Yahoo Finance. In particolare richiede [SPY](https://finance.yahoo.com/quote/SPY/history?p=SPY) e [AGG](https://finance.yahoo.com/quote/AGG/history? p=AGG) dati ETF. Scarica la cronologia completa per ciascuno e salva come file CSV nella stessa directory di ``sixty_forty.py``.
+Lo script 60/40 utilizza i dati delle "barra giornaliera" OHLC di Yahoo Finance. In particolare richiede [SPY](https://finance.yahoo.com/quote/SPY/history?p=SPY) e [AGG](https://finance.yahoo.com/quote/AGG/history? p=AGG) dati ETF. Scarica la cronologia completa per ciascuno e salva come file CSV nella stessa directory di ``sixty_forty.py``.
 
 Supponendo che esista un ambiente Python appropriato e che DataInvestor sia stato installato correttamente (vedi **Installazione** sopra), assicurati di attivare l'ambiente virtuale, vai alla directory con ``sixty_forty.py`` e digita:
 
@@ -52,7 +88,7 @@ In caso di domande sull'installazione o sull'utilizzo di esempio, non esitare a 
 
 # Termini di Licenza
 
-Copyright (c) 2018-2022 DataTrading.info
+Copyright (c) 2018-2024 DataTrading.info
 
 
 Con la presente viene concessa l'autorizzazione, a titolo gratuito, a chiunque ottenga una copia di questo software e dei file di documentazione associati (il "Software"), di trattare il Software senza restrizioni, inclusi, senza limitazione, i diritti di utilizzo, copia, modifica, unione , pubblicare, distribuire, concedere in licenza e / o vendere copie del Software e consentire alle persone a cui il Software è fornito di farlo, alle seguenti condizioni:

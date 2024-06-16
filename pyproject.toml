@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "datainvestor"
+version = "0.2.8"
+dependencies = [
+    "click>=8.1",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "seaborn>=0.13",
+    "pyyaml",
+    "munch",
+    "yfinance",
+]
+authors = [
+    {name="Gianluca", email="support@datatrading.info"}
+]
+
+description = "DataInvestor - Motore di simulazione di portafogli di investimento"
+readme = "README.md"
+requires-python = ">= 3.9"
+keywords = ["backtesting", "trading sistematico", "trading algoritmico", "portafoglio d'investimeno"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+]
+
+[project.urls]
+Homepage = "https://github.com/datatrading-info/DataInvestor"
+Issues = "https://github.com/datatrading-info/DataInvestor/issues"
+Documentation = "https://www.datatrading.info/datainvestor"
+Website = "https://www.datatrading.info"
+
+
