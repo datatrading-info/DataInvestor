@@ -205,7 +205,7 @@ class TearsheetStatistics(Statistics):
         # Statistiche della strategia
         returns = stats["returns"]
         cum_returns = stats['cum_returns']
-        tot_ret = cum_returns[-1] - 1.0
+        tot_ret = cum_returns.iloc[-1] - 1.0
         cagr = perf.create_cagr(cum_returns, self.periods)
         sharpe = perf.create_sharpe_ratio(returns, self.periods)
         sortino = perf.create_sortino_ratio(returns, self.periods)
@@ -216,7 +216,7 @@ class TearsheetStatistics(Statistics):
         if bench_stats is not None:
             bench_returns = bench_stats["returns"]
             bench_cum_returns = bench_stats['cum_returns']
-            bench_tot_ret = bench_cum_returns[-1] - 1.0
+            bench_tot_ret = bench_cum_returns.iloc[-1] - 1.0
             bench_cagr = perf.create_cagr(bench_cum_returns, self.periods)
             bench_sharpe = perf.create_sharpe_ratio(bench_returns, self.periods)
             bench_sortino = perf.create_sortino_ratio(bench_returns, self.periods)
@@ -441,8 +441,6 @@ class TearsheetStatistics(Statistics):
         """
         Grafico del Tearsheet
         """
-        if settings.PRINT_EVENTS:
-            print('Plotting the tearsheet...')
         rc = {
             'lines.linewidth': 1.0,
             'axes.facecolor': '0.995',
@@ -501,4 +499,6 @@ class TearsheetStatistics(Statistics):
             fig.savefig(filename)
 
         # Visualizzazione del grafico
+        if settings.PRINT_EVENTS:
+            print('Plotting the tearsheet...')
         plt.show()

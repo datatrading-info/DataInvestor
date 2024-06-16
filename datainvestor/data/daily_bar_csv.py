@@ -181,7 +181,7 @@ class CSVDailyBarDataSource(object):
         dp_df = seq_oc_df[['Date', 'Price']]
         dp_df['Bid'] = dp_df['Price']
         dp_df['Ask'] = dp_df['Price']
-        dp_df = dp_df.loc[:, ['Date', 'Bid', 'Ask']].fillna(method='ffill').set_index('Date').sort_index()
+        dp_df = dp_df.loc[:, ['Date', 'Bid', 'Ask']].ffill().set_index('Date').sort_index()
         return dp_df
 
     def _convert_bars_into_bid_ask_dfs(self):
@@ -222,8 +222,9 @@ class CSVDailyBarDataSource(object):
             Il prezzo bid.
         """
         bid_ask_df = self.asset_bid_ask_frames[asset]
+        bid_series = bid_ask_df.iloc[bid_ask_df.index.get_indexer([dt], method='pad')]['Bid']
         try:
-            bid = bid_ask_df.iloc[bid_ask_df.index.get_indexer([dt], method='pad')]['Bid'][0]
+            bid = bid_series.iloc[0]
         except KeyError:  # Prima della data inizio
             return np.NaN
         return bid
@@ -246,8 +247,9 @@ class CSVDailyBarDataSource(object):
             Il prezzo ask.
         """
         bid_ask_df = self.asset_bid_ask_frames[asset]
+        ask_series = bid_ask_df.iloc[bid_ask_df.index.get_indexer([dt], method='pad')]['Ask']
         try:
-            ask = bid_ask_df.iloc[bid_ask_df.index.get_indexer([dt], method='pad')]['Ask'][0]
+            ask = ask_series.iloc[0]
         except KeyError:  # Prima della data inizio
             return np.NaN
         return ask
