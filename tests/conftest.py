@@ -1,6 +1,5 @@
 import pytest
 
-
 class Helpers:
     @staticmethod
     def assert_order_lists_equal(orders_1, orders_2):

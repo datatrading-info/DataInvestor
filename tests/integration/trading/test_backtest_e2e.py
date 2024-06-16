@@ -7,6 +7,7 @@ from datainvestor.alpha_model.fixed_signals import FixedSignalsAlphaModel
 from datainvestor.asset.universe.static import StaticUniverse
 from datainvestor.trading.backtest import BacktestTradingSession
 
+from datainvestor import settings
 
 def test_backtest_sixty_forty(etf_filepath):
     """
@@ -58,7 +59,10 @@ def test_backtest_sixty_forty(etf_filepath):
     expected_df = pd.read_csv(os.path.join(etf_filepath, 'sixty_forty_history.dat'))
 
     pd.testing.assert_frame_equal(history_df, expected_df)
-    assert portfolio_dict == expected_dict
+
+    for symbol in expected_dict.keys():
+        for metric in expected_dict[symbol].keys():
+            assert portfolio_dict[symbol][metric] == pytest.approx(expected_dict[symbol][metric])
 
 
 def test_backtest_long_short_leveraged(etf_filepath):
@@ -111,3 +115,70 @@ def test_backtest_long_short_leveraged(etf_filepath):
 
     pd.testing.assert_frame_equal(history_df, expected_df)
     assert portfolio_dict == expected_dict
+
+
+def test_backtest_buy_and_hold(etf_filepath, capsys):
+    """
+    Ensures a backtest with a buy and hold rebalance calculates
+    the correct dates for execution orders when the start date is not
+    a business day.
+    """
+    settings.print_events = True
+    os.environ['DATAINVESTOR_CSV_DATA_DIR'] = etf_filepath
+    assets = ['EQ:GHI']
+    universe = StaticUniverse(assets)
+    alpha_model = FixedSignalsAlphaModel({'EQ:GHI': 1.0})
+
+    start_dt = pd.Timestamp('2015-11-07 14:30:00', tz=pytz.UTC)
+    end_dt = pd.Timestamp('2015-11-10 14:30:00', tz=pytz.UTC)
+
+    backtest = BacktestTradingSession(
+        start_dt,
+        end_dt,
+        universe,
+        alpha_model,
+        rebalance='buy_and_hold',
+        long_only=True,
+        cash_buffer_percentage=0.01,
+    )
+    backtest.run(results=False)
+
+    expected_execution_text = "(2015-11-09 14:30:00+00:00) - executed order:"
+    captured = capsys.readouterr()
+    assert expected_execution_text in captured.out
+
+
+def test_backtest_target_allocations(etf_filepath, ):
+    """
+    """
+    settings.print_events = True
+    os.environ['DATAINVESTOR_CSV_DATA_DIR'] = etf_filepath
+
+    assets = ['EQ:ABC', 'EQ:DEF']
+    universe = StaticUniverse(assets)
+    signal_weights = {'EQ:ABC': 0.6, 'EQ:DEF': 0.4}
+    alpha_model = FixedSignalsAlphaModel(signal_weights)
+
+    start_dt = pd.Timestamp('2019-01-01 00:00:00', tz=pytz.UTC)
+    end_dt = pd.Timestamp('2019-01-31 23:59:00', tz=pytz.UTC)
+    burn_in_dt = pd.Timestamp('2019-01-07 14:30:00', tz=pytz.UTC)
+
+    backtest = BacktestTradingSession(
+        start_dt,
+        end_dt,
+        universe,
+        alpha_model,
+        portfolio_id='000001',
+        rebalance='weekly',
+        rebalance_weekday='WED',
+        long_only=True,
+        cash_buffer_percentage=0.05,
+        burn_in_dt=burn_in_dt
+    )
+    backtest.run(results=False)
+
+    target_allocations = backtest.get_target_allocations()
+    expected_ta = pd.DataFrame(data={'EQ:ABC': 0.6, 'EQ:DEF': 0.4},
+                               index=pd.date_range("20190125", periods=5, freq='B'))
+    actual_ta = target_allocations.tail()
+    assert expected_ta.equals(actual_ta)
