@@ -2,6 +2,7 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+
 [project]
 name = "datainvestor"
 version = "0.2.8"
@@ -40,4 +41,7 @@ Issues = "https://github.com/datatrading-info/DataInvestor/issues"
 Documentation = "https://www.datatrading.info/datainvestor"
 Website = "https://www.datatrading.info"
 
+
+[tool.hatch.build.targets.wheel]
+packages = ["DataInvestor"]
 
