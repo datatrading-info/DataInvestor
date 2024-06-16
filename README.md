@@ -18,7 +18,7 @@ L'installazione richiede un ambiente Python3. L'approccio più semplice è scari
 Eventuali problemi con l'installazione devono essere segnalati al team di sviluppo come problemi [qui](https://github.com/datatrading-info/DataInvestor/issues).
 
 
-##conda
+## conda
 
 [conda](https://docs.conda.io/projects/conda/en/latest/) è uno strumento da riga di comando fornito con la distribuzione Anaconda. Ti consente di gestire gli ambienti virtuali e pacchetti _utilizzando lo stesso strumento_.
 
