@@ -43,5 +43,5 @@ Website = "https://www.datatrading.info"
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["DataInvestor"]
+packages = ["datainvestor"]
 
