@@ -2,7 +2,6 @@ from itertools import groupby
 
 import numpy as np
 import pandas as pd
-from scipy.stats import linregress
 
 
 def aggregate_returns(returns, convert_to):
@@ -96,9 +95,3 @@ def create_drawdowns(returns):
     )
     return perf["Drawdown"], np.max(perf["Drawdown"]), duration
 
-def rsquared(x, y):
-    """
-    Restituisce il R^2 dove x e y sono array-like.
-    """
-    slope, intercept, r_value, p_value, std_err = linregress(x, y)
-    return r_value**2

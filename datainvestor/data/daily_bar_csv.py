@@ -226,7 +226,7 @@ class CSVDailyBarDataSource(object):
         try:
             bid = bid_series.iloc[0]
         except KeyError:  # Prima della data inizio
-            return np.NaN
+            return np.nan
         return bid
 
     @functools.lru_cache(maxsize=1024 * 1024)
@@ -251,7 +251,7 @@ class CSVDailyBarDataSource(object):
         try:
             ask = ask_series.iloc[0]
         except KeyError:  # Prima della data inizio
-            return np.NaN
+            return np.nan
         return ask
 
     def get_assets_historical_closes(self, start_dt, end_dt, assets):
